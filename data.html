@@ -1,101 +1,68 @@
+
+
+
 <!DOCTYPE html>
-<html>
-<head>
-	<title>List of documents to be uploaded</title>
-</head>
-<body>
-			<dl>
-				<dt><h1>List Of Documents To Be Uploaded</h1></dt>
-				<dd><ol><table>
-	<tr>
-		<td><li><label>Student Name: </label></li></td>
-		<td><input type="text" name="" placeholder=""></td>
-	</tr>
-	<tr>
-		<td><li><label>10<sup>th</sup> marksheet:</label></li></td>
-		<td><input type="file" name=""></td>
-	</tr>
-	<tr>
-		<td><li><label>11<sup>th</sup> marksheet:</label></li></td>
-		<td><input type="file" name=""></td>
-	</tr>
-	<tr>
-		<td><li><label>12<sup>th</sup> marksheet:</label></li></td>
-		<td><input type="file" name=""></td>
-	</tr>
-	<tr>
-		<td><li><label>TC:</label></li></td>
-		<td><input type="file" name=""></td>
-	</tr>
-	<tr>
-		<td><li><label>Aadhar card:</label></li></td>
-		<td><input type="file" name=""></td>
-	</tr>
-	<tr>
-		<td><li><label>Passport Photo: </label></li></td>
-		<td><input type="file" name=""></td>
-	</tr>
-	<tr>
-		<td><li><label>Signature:</label></li></td>
-		<td><input type="file" name=""></td>
-	</tr>
-	<tr>
-		<td><li><label>Manuscript:</label></li></td>
-		<td><input type="file" name=""></td>
-	</tr>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Madha Engineering College</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
 
-</table></ol>
-					
-				</dd>
-			</dl>
-			<center><a href=""><button>submit</button></a></center>
-<hr><br><br>
-<dl>
-	<dt><label><strong style="color:blue">General Quota</strong></label><input type="checkbox" name="">-----------------------------------------------------------------------------------------------------------------------------------------------<label><strong  style="color:blue">Management Quota</strong></label><input type="checkbox" name=""></dt><br>
-	<dd><table>
-		<tr>
-			<td><label>Reservation: </label><input type="radio" name="rdbReservation" id="rdbReservation" value="Y" checked/><strong>Yes</strong></td>
-			<td><input type="radio" name="rdbReservation" id="rdbReservation" value="N" checked/><strong>No</strong></td>
-			<td> <dl>
-				<dd><table>
-					<tr>
-						<td><label>PMS: </label><input type="radio" name="rdbReservation" id="rdbReservation" value="Y" checked/><strong>Yes</strong>
-							<input type="radio" name="rdbReservation" id="rdbReservation" value="N" checked/><strong>No</strong></dd></td>
-					</tr>
-					<tr>
-						<td><label>Community Certificate </label><input type="file" name=""></td>
-					</tr>
-					<tr>
-						<td><label>Income certificate </label><input type="file" name=""></td>
-					</tr>
-					<tr>
-						<td><a href=""><button style="color:green">Submit</button></a></td>
-					</tr>
-				</table></dd>
-			</dl></td>
-		</tr>
-		<tr>
-			<td><label>Community Certificate: </label><input type="file" name=""></td>
-			<td><label>PMS</label><input type="checkbox" name=""></td>
-		</tr>
-		<tr>
-			<td><label>First Graduate: </label><input type="radio" name="rdbReservation" id="rdbReservation" value="Y" checked/>Yes
-				<input type="radio" name="rdbReservation" id="rdbReservation" value="N" checked/>No</td>
-				<td><label>Income Certificate: </label><input type="file" name=""></td>
-		</tr>
-		<tr>
-			<td><label>first Graduate </label><input type="file" name=""></td>
-		</tr>
-		<tr>
-			<td><label>Jioning Declearation </label><input type="file" name=""></td>
-		</tr>
-		<tr>
-			<td><a href=""><button style="color:blue">Submit</button></a></td>
-		</tr>
-	</table></dd>
-</dl>
-<hr>
+    <!-- Vendor CSS Files -->
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/css/style.css" rel="stylesheet" />
 
+    <!-- Vendor js Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <script>
+    window.addEventListener("load", () => {
+      var select = document.getElementById("department");
+      var button = document.getElementById("submit");
+      var entrySection = document.getElementById("entrySection");
 
-</body>
+      select.addEventListener("change", function (e) {
+        let value = select.value;
+        if (value != "Select a branch") {
+          button.classList.remove("disabled");
+          entrySection.classList.remove("d-none");
+        } else {
+          button.classList.add("disabled");
+          entrySection.classList.add("d-none");
+        }
+      });
+      button.addEventListener("click", function (event) {
+        let value = select.value;
+        if (value == "Select a branch") {
+          alert("Please select the branch !");
+        } else {
+          let mode = document.querySelector(
+            'input[name="flexRadioDefault"]:checked'
+          ).value;
+          console.log(mode);
+          window.localStorage.setItem("department", value);
+          window.localStorage.setItem("entry_mode", mode);
+          window.location.href = "data.html";
+        }
+      });
+    });
+  </script>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h1>List Of Documents To Be Uploaded</h1>
+     
+  
+      </div>
+    </div>
+  </body>
 </html>
