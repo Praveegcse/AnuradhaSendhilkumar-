@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -26,42 +23,326 @@
   </head>
   <script>
     window.addEventListener("load", () => {
-      var select = document.getElementById("department");
+      var header = document.getElementById("header");
       var button = document.getElementById("submit");
-      var entrySection = document.getElementById("entrySection");
 
-      select.addEventListener("change", function (e) {
-        let value = select.value;
-        if (value != "Select a branch") {
+      //header for department
+      header.innerHTML = `Department - ${window.localStorage.getItem(
+        "department"
+      )}`;
+
+      var formStudentDocUpload = document.getElementById("docStudent");
+      var fileUploadList =
+        formStudentDocUpload.querySelectorAll('input[type="file"]');
+
+      for (var i = 0, len = fileUploadList.length; i < len; i++) {
+        fileUploadList[i].addEventListener("change", function (e) {
+          checkUploadFile();
+        });
+      }
+
+      function checkUploadFile() {
+        var checkFile = true;
+        for (var i = 0, len = fileUploadList.length; i < len; i++) {
+          if (fileUploadList[i].value == "") {
+            checkFile = false;
+          }
+        }
+        if (checkFile) {
           button.classList.remove("disabled");
-          entrySection.classList.remove("d-none");
         } else {
           button.classList.add("disabled");
-          entrySection.classList.add("d-none");
         }
-      });
-      button.addEventListener("click", function (event) {
-        let value = select.value;
-        if (value == "Select a branch") {
-          alert("Please select the branch !");
-        } else {
-          let mode = document.querySelector(
-            'input[name="flexRadioDefault"]:checked'
-          ).value;
-          console.log(mode);
-          window.localStorage.setItem("department", value);
-          window.localStorage.setItem("entry_mode", mode);
-          window.location.href = "data.html";
-        }
-      });
+      }
     });
+
+    function handelRadio(name) {
+      let value = document.querySelector(`input[name="${name}"]:checked`).value;
+      if (name == "Quota") {
+        if (value == "Management") {
+          document.getElementById("managementSection").classList.remove("d-none");
+          document.getElementById("generalSection").classList.add("d-none");
+        } else {
+          document.getElementById("managementSection").classList.add("d-none");
+          document.getElementById("generalSection").classList.remove("d-none");
+        }
+      }else if (name ==  'Reservation'){
+        console.log(value)
+        if (value == "yes") {
+          document.getElementById("reservationYesSection").classList.remove("d-none");
+          document.getElementById("reservationNoSection").classList.add("d-none");
+        } else {
+          document.getElementById("reservationYesSection").classList.add("d-none");
+          document.getElementById("reservationNoSection").classList.remove("d-none");
+        }
+
+      }
+    }
   </script>
   <body>
-    <div class="container">
-      <div class="row">
-        <h1>List Of Documents To Be Uploaded</h1>
-     
-  
+    <div class="container mb-5 mt-5">
+      <div>
+        <h1 id="header" style="text-align: center" class="mt-4"></h1>
+      </div>
+      <div class="row mt-5">
+        <div class="col-sm-12 col-md-6 p-4">
+          <form id="docStudent">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label"
+                >Student Name</label
+              >
+              <input type="text" class="form-control" id="name" />
+            </div>
+            <div class="mb-3">
+              <label for="formFile" class="form-label"
+                >10<sup>th</sup> marksheet</label
+              >
+              <input class="form-control" type="file" id="10thMarksheet" />
+            </div>
+            <div class="mb-3">
+              <label for="formFile" class="form-label"
+                >11<sup>th</sup> marksheet</label
+              >
+              <input class="form-control" type="file" id="11thMarksheet" />
+            </div>
+            <div class="mb-3">
+              <label for="formFile" class="form-label"
+                >12<sup>th</sup> marksheet</label
+              >
+              <input class="form-control" type="file" id="12thMarksheet" />
+            </div>
+            <div class="mb-3">
+              <label for="formFile" class="form-label">TC</label>
+              <input class="form-control" type="file" id="tc" />
+            </div>
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Aadhar card</label>
+              <input class="form-control" type="file" id="aadhar" />
+            </div>
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Passport Photo</label>
+              <input class="form-control" type="file" id="passportPhoto" />
+            </div>
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Signature</label>
+              <input class="form-control" type="file" id="signature" />
+            </div>
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Manuscript</label>
+              <input class="form-control" type="file" id="manuscript" />
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-12 col-md-6 p-4">
+          <form>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Quota</label>
+              <div class="d-flex mt-2 mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="Quota"
+                    id="flexRadioDefault1"
+                    onclick="handelRadio('Quota')"
+                    value="General"
+                  />
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    General
+                  </label>
+                </div>
+                <div class="form-check ms-3">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="Quota"
+                    value="Management"
+                    id="flexRadioDefault2"
+                    checked
+                    onclick="handelRadio('Quota')"
+                  />
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Management
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 d-none" id="generalSection">
+              <label for="exampleInputEmail1" class="form-label"
+                >Reservation</label
+              >
+              <div class="d-flex mt-2 mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="Reservation"
+                    id="flexRadioDefault1"
+                    value="yes"
+                    onclick="handelRadio('Reservation')"
+                  />
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check ms-5">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="Reservation"
+                    id="flexRadioDefault2"
+                    value="no"
+                    checked
+                    onclick="handelRadio('Reservation')"
+                  />
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3" id="managementSection">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">PMS</label>
+                <div class="d-flex mt-2 mb-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="PMS"
+                      id="flexRadioDefault1"
+                    />
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Yes
+                    </label>
+                  </div>
+                  <div class="form-check ms-5">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="PMS"
+                      id="flexRadioDefault2"
+                      checked
+                    />
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label"
+                  >Community Certificate</label
+                >
+                <input
+                  class="form-control"
+                  type="file"
+                  id="communityCertificate"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label"
+                  >Income certificate</label
+                >
+                <input
+                  class="form-control"
+                  type="file"
+                  id="incomeCertificate"
+                />
+              </div>
+            </div>
+            <div class="mb-3 d-none" id="reservationYesSection">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label"
+                  >First Graduate</label
+                >
+                <div class="d-flex mt-2 mb-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="firstGraduate"
+                      id="flexRadioDefault1"
+                    />
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Yes
+                    </label>
+                  </div>
+                  <div class="form-check ms-5">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="firstGraduate"
+                      id="flexRadioDefault2"
+                      checked
+                    />
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label"
+                  >Community Certificate</label
+                >
+                <input
+                  class="form-control"
+                  type="file"
+                  id="communityCertificate"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">First Graduate</label>
+                <input class="form-control" type="file" id="firstGraduate" />
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label"
+                  >Jioning Declearation</label
+                >
+                <input
+                  class="form-control"
+                  type="file"
+                  id="jioningDeclearation"
+                />
+              </div>
+            </div>
+            <div class="mb-3 d-none" id="reservationNoSection">
+              <div class="mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="PMSCheck"
+                  />
+                  <label class="form-check-label" for="defaultCheck1">
+                    PMS
+                  </label>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label"
+                  >Income Certificate</label
+                >
+                <input
+                  class="form-control"
+                  type="file"
+                  id="incomeCertificate"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div style="text-align: center">
+        <button
+          type="button"
+          class="btn btn-primary mt-4 w-50 disabled"
+          id="submit"
+        >
+          Submit
+        </button>
       </div>
     </div>
   </body>
