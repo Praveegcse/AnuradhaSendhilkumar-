@@ -1,0 +1,13 @@
+body {
+  font-family: "Open Sans", sans-serif;
+  color: #4d4643;
+}
+
+.department-container {
+  min-width: 500px;
+  position: absolute;
+  text-align: center;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
