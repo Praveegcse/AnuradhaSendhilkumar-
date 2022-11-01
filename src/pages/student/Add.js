@@ -7,8 +7,45 @@ export default function Add() {
     const { Option } = Select;
     const { Title } = Typography;
 
-    const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+    const onFinish = (data) => {
+
+        var formdata = new FormData();
+        formdata.append("DOC001", data['10thMarksheet'].file.originFileObj);
+        formdata.append("DOC002", data['11thMarksheet'].file.originFileObj);
+        formdata.append("DOC003", data['12thMarksheet'].file.originFileObj);
+        formdata.append("DOC004", data['TC'].file.originFileObj);
+        formdata.append("DOC005", data['aadhar'].file.originFileObj);
+        formdata.append("DOC006", data['passportPhoto'].file.originFileObj);
+        formdata.append("DOC007", data['signature'].file.originFileObj);
+        formdata.append("DOC008", data['manuscript'].file.originFileObj);
+        formdata.append("DOC009", data['communityCertificate'].file.originFileObj);
+        formdata.append("DOC010", data['incomeCertificate'].file.originFileObj);
+        formdata.append("DOC011", data['firstGraduate'].file.originFileObj);
+        formdata.append("DOC012", data['jioningDeclearation'].file.originFileObj);
+
+        let formObj = {
+            modeOfEntry: data.modeEntry,
+            name: data.name,
+            branch: data.branch,
+            PMS: data.PMS,
+            quota: data.quota,
+            reservation: data.reservation,
+            firstGraduate: data.firstGraduateRadio
+        }
+
+        formdata.append("bodyData", formObj);
+        console.log(formdata)
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:1337", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
     };
 
     const dummyRequest = ({ data, onSuccess }) => {
@@ -44,11 +81,13 @@ export default function Add() {
 
             <Title style={{ textAlign: 'center' }}>Add Student</Title>
             <Form
+                colon={false}
                 {...formItemLayout}
                 form={form}
                 name="register"
                 onFinish={onFinish}
                 scrollToFirstError
+
             >
                 <Form.Item
                     name="name"
@@ -78,14 +117,14 @@ export default function Add() {
                         optionFilterProp="children"
                         filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
                     >
-                        <Option value="CSE">CSE</Option>
-                        <Option value="IT">IT</Option>
-                        <Option value="ECE">ECE</Option>
-                        <Option value="EEE">EEE</Option>
-                        <Option value="MECH">MECH</Option>
-                        <Option value="CIVIL">CIVIL</Option>
-                        <Option value="BIOTECH">BIOTECH</Option>
-                        <Option value="AERO">AERO</Option>
+                        <Option value="D001">CSE</Option>
+                        <Option value="D002">IT</Option>
+                        <Option value="D003">ECE</Option>
+                        <Option value="D004">EEE</Option>
+                        <Option value="D005">MECH</Option>
+                        <Option value="D006">CIVIL</Option>
+                        <Option value="D007">BIOTECH</Option>
+                        <Option value="D008">AERO</Option>
                     </Select>
                 </Form.Item>
                 <Form.Item
@@ -99,8 +138,8 @@ export default function Add() {
                     ]}
                 >
                     <Radio.Group>
-                        <Radio value={'regular'}>Regular</Radio>
-                        <Radio value={'lateral entry'}>Lateral entry</Radio>
+                        <Radio value={'MOE001'}>Regular</Radio>
+                        <Radio value={'MOE002'}>Lateral entry</Radio>
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item
@@ -290,35 +329,26 @@ export default function Add() {
                     ]}
                 >
                     <Radio.Group>
-                        <Radio value={'general '}>General </Radio>
-                        <Radio value={'management'}>Management</Radio>
+                        <Radio value={'Q001'}>General </Radio>
+                        <Radio value={'Q002'}>Management</Radio>
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item
                     name="PMS"
                     label="PMS"
-                    rules={[
-                        {
-                            required: true,
-                            message: ' Choose your PMS',
-                        },
-                    ]}
+
+
                 >
                     <Radio.Group>
                         <Radio value={'yes '}>Yes</Radio>
                         <Radio value={'no'}>No</Radio>
                     </Radio.Group>
                 </Form.Item>
-                
+
                 <Form.Item
                     name="reservation"
                     label="Reservation"
-                    rules={[
-                        {
-                            required: true,
-                            message: ' Choose your Reservation',
-                        },
-                    ]}
+
                 >
                     <Radio.Group>
                         <Radio value={'yes '}>Yes</Radio>
@@ -326,14 +356,9 @@ export default function Add() {
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item
-                    name="firstGraduate"
+                    name="firstGraduateRadio"
                     label="First Graduate"
-                    rules={[
-                        {
-                            required: true,
-                            message: ' Choose your Graduate',
-                        },
-                    ]}
+
                 >
                     <Radio.Group>
                         <Radio value={'yes '}>Yes</Radio>
@@ -344,11 +369,7 @@ export default function Add() {
                 <Form.Item
                     name="communityCertificate"
                     label="Community Certificate"
-                    rules={[
-                        {
-                            required: true,
-                        },
-                    ]}
+
                 >
                     <Upload listType="picture-card" maxCount={1} customRequest={dummyRequest}>
                         <div>
@@ -366,11 +387,43 @@ export default function Add() {
                 <Form.Item
                     name="incomeCertificate"
                     label="Income Certificate"
-                    rules={[
-                        {
-                            required: true,
-                        },
-                    ]}
+
+                >
+                    <Upload listType="picture-card" maxCount={1} customRequest={dummyRequest}>
+                        <div>
+                            <PlusOutlined />
+                            <div
+                                style={{
+                                    marginTop: 8,
+                                }}
+                            >
+                                Upload
+                            </div>
+                        </div>
+                    </Upload>
+                </Form.Item>
+                <Form.Item
+                    name="firstGraduate"
+                    label="First Graduate"
+
+                >
+                    <Upload listType="picture-card" maxCount={1} customRequest={dummyRequest}>
+                        <div>
+                            <PlusOutlined />
+                            <div
+                                style={{
+                                    marginTop: 8,
+                                }}
+                            >
+                                Upload
+                            </div>
+                        </div>
+                    </Upload>
+                </Form.Item>
+                <Form.Item
+                    name="jioningDeclearation"
+                    label="Jioning Declearation"
+
                 >
                     <Upload listType="picture-card" maxCount={1} customRequest={dummyRequest}>
                         <div>
