@@ -1,6 +1,8 @@
 import React from 'react';
 import { Select, Typography, Form, Input, Button, Radio, Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { triggerFocus } from 'antd/lib/input/Input';
+import { json } from 'react-router-dom';
 
 export default function Add() {
     const [form] = Form.useForm();
@@ -9,31 +11,32 @@ export default function Add() {
 
     const onFinish = (data) => {
 
+        console.log(data);
         var formdata = new FormData();
-        formdata.append("DOC001", data['10thMarksheet'].file.originFileObj);
-        formdata.append("DOC002", data['11thMarksheet'].file.originFileObj);
-        formdata.append("DOC003", data['12thMarksheet'].file.originFileObj);
-        formdata.append("DOC004", data['TC'].file.originFileObj);
-        formdata.append("DOC005", data['aadhar'].file.originFileObj);
-        formdata.append("DOC006", data['passportPhoto'].file.originFileObj);
-        formdata.append("DOC007", data['signature'].file.originFileObj);
-        formdata.append("DOC008", data['manuscript'].file.originFileObj);
-        formdata.append("DOC009", data['communityCertificate'].file.originFileObj);
-        formdata.append("DOC010", data['incomeCertificate'].file.originFileObj);
-        formdata.append("DOC011", data['firstGraduate'].file.originFileObj);
-        formdata.append("DOC012", data['jioningDeclearation'].file.originFileObj);
+        formdata.append("DOC001", data['10thMarksheet']?.file.originFileObj);
+        formdata.append("DOC002", data['11thMarksheet']?.file.originFileObj);
+        formdata.append("DOC003", data['12thMarksheet']?.file.originFileObj);
+        formdata.append("DOC004", data['TC']?.file.originFileObj);
+        formdata.append("DOC005", data['aadhar']?.file.originFileObj);
+        formdata.append("DOC006", data['passportPhoto']?.file.originFileObj);
+        formdata.append("DOC007", data['signature']?.file.originFileObj);
+        formdata.append("DOC008", data['manuscript']?.file.originFileObj);
+        formdata.append("DOC009", data['communityCertificate']?.file.originFileObj);
+        formdata.append("DOC010", data['incomeCertificate']?.file.originFileObj);
+        formdata.append("DOC011", data['firstGraduate']?.file.originFileObj);
+        formdata.append("DOC012", data['jioningDeclearation']?.file.originFileObj);
 
         let formObj = {
-            modeOfEntry: data.modeEntry,
-            name: data.name,
-            branch: data.branch,
-            PMS: data.PMS,
-            quota: data.quota,
-            reservation: data.reservation,
-            firstGraduate: data.firstGraduateRadio
+            ModeOfEntry: data.modeEntry,
+            StudentName: data.name,
+            Department: data.branch,
+            PMS: true,
+            Quota: data.quota,
+            Reservation: true,
+            FirstGraduate: true
         }
 
-        formdata.append("bodyData", formObj);
+        formdata.append("studentInfo",JSON.stringify(formObj));
         console.log(formdata)
 
         var requestOptions = {
@@ -42,7 +45,7 @@ export default function Add() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:1337", requestOptions)
+        fetch("https://localhost:5001/api/Student/SaveStudentDetails", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
